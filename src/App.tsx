@@ -3,10 +3,10 @@ import HangQuiz from "./pages/HangQuiz";
 
 function App() {
   return (
-    <div className="container">
+    <>
       <HangQuiz />
       <GlobalStyle />
-    </div>
+    </>
   );
 }
 

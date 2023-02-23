@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+// Components
+import Fireworks from "./Fireworks";
+
+// Interface
 interface IModal {
   errorCount: number;
   word: String;
@@ -9,15 +13,17 @@ interface IModal {
 
 export default function Modal({ errorCount, word, resetGame }: IModal) {
   const [time, setTime] = useState(false);
-
+  
   useEffect(() => {
     setTimeout(() => {
       setTime(true);
-    }, 2000);
+    }, 1500);
   }, []);
 
   return (
     <StyledModal className={"modal__wrapper" + (time ? " time" : "")}>
+      {errorCount < 6 ? <Fireworks /> : null}
+
       {time && (
         <div className="modal">
           <div className="top">
@@ -57,6 +63,7 @@ const StyledModal = styled.div`
     height: 220px;
     border-radius: 12px;
     background-color: #fff;
+    z-index: 10;
 
     .top {
       padding: 8px 0px;

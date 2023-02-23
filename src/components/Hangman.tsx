@@ -1,68 +1,121 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import Keyboard from "./Keyboard";
+
+// All names json
+import names from "../names.json";
+
+// Components
 import Modal from "./Modal";
+import Keyboard from "./Keyboard";
 
 export default function Hangman() {
   const [errorCount, setErrorCount] = useState(0);
+  const [resultCount, setResultCount] = useState(0);
   const [letters, setLetters] = useState<Array<String>>([]);
 
-  const word: String = "Airport";
-  const wordLetters: Array<String> = word.toUpperCase().split("");
+  const [word, setWord] = useState<String>("");
+  const [wordLetters, setWordLetters] = useState<Array<String>>([]);
 
+  // Reset Game
   function resetGame() {
-    setErrorCount(0);
     setLetters([]);
+    setErrorCount(0);
+    setResultCount(0);
+    setWord(getRandomName());
   }
 
-  useEffect(() => {
-    if (letters.length > 0) {
-      if (!wordLetters.includes(letters[letters.length - 1])) {
-        setErrorCount((p) => ++p);
+  // get random name
+  function getRandomName() {
+    return names[Math.floor(Math.random() * (names.length - 1 - 0) + 0)];
+  }
+
+  // Checking true results
+  function checkingResult() {
+    let count = 0;
+
+    wordLetters.forEach((i) => {
+      if (letters.includes(i)) {
+        count++;
       }
+      setResultCount(count);
+    });
+  }
+
+  // Keyboard Click watcher
+  useEffect(() => {
+    const currLetters = letters;
+
+    if (currLetters.length > 0) {
+
+      if (!wordLetters.includes(currLetters[currLetters.length - 1])) {
+        setErrorCount((p) => p + 1);
+
+      } else {
+        checkingResult()
+      };
     }
   }, [letters]);
 
+  // Generate random name
+  useEffect(() => {
+    setWord(getRandomName());
+  }, []);
+
+  // Getting the name into an array
+  useEffect(() => {
+    setWordLetters(word.toUpperCase().split(""));
+  }, [word]);
+
   return (
     <StyledHangman>
-      <div className="hang">
-        <div className="dor">
-          <div className="top"></div>
-          <div className="center"></div>
-          <div className="bottom"></div>
-        </div>
-
-        <div className="man">
-          {errorCount > 0 && <div className="head"></div>}
-          {errorCount > 1 && <div className="body"></div>}
-          {errorCount > 2 && <div className="hand left"></div>}
-          {errorCount > 3 && <div className="hand right"></div>}
-          {errorCount > 4 && <div className="leg left"></div>}
-          {errorCount > 5 && <div className="leg right"></div>}
-        </div>
-      </div>
-
-      <div className="display">
-        {wordLetters.map((i: String, idx: number) => (
-          <div
-            className={
-              "letter" + (errorCount > 5 && !letters.includes(i) ? " lose" : "")
-            }
-            key={String(i + String(idx))}
-          >
-            <p>
-              {errorCount > 5 && !letters.includes(i)
-                ? i
-                : letters.includes(i)
-                ? i.toUpperCase()
-                : ""}
-            </p>
+      <div className="container">
+        <div className="hang">
+          <div className="dor">
+            <div className="top"></div>
+            <div className="center"></div>
+            <div className="bottom"></div>
           </div>
-        ))}
-      </div>
 
-      {errorCount > 5 && <Modal word={word} errorCount={errorCount} resetGame={resetGame} />}
-      <Keyboard setLetters={setLetters} letters={letters} />
+          <div className="man">
+            {errorCount > 0 && <div className="head"></div>}
+            {errorCount > 1 && <div className="body"></div>}
+            {errorCount > 2 && <div className="hand left"></div>}
+            {errorCount > 3 && <div className="hand right"></div>}
+            {errorCount > 4 && <div className="leg left"></div>}
+            {errorCount > 5 && <div className="leg right"></div>}
+          </div>
+        </div>
+
+        <div className="display">
+          {wordLetters?.map((i: String, idx: number) => (
+            <div
+              className={
+                "letter" +
+                (errorCount > 5 && !letters.includes(i)
+                  ? " lose"
+                  : resultCount === word.length
+                  ? " win"
+                  : "")
+              }
+              key={String(i + String(idx))}
+            >
+              <p>
+                {errorCount > 5 && !letters.includes(i)
+                  ? i
+                  : letters.includes(i)
+                  ? i.toUpperCase()
+                  : ""}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {(errorCount > 5 || resultCount === word.length) && (
+          <Modal word={word} errorCount={errorCount} resetGame={resetGame} />
+        )}
+
+        <Keyboard setLetters={setLetters} letters={letters} />
+      </div>
     </StyledHangman>
   );
 }
@@ -203,8 +256,12 @@ const StyledHangman = styled.div`
         text-align: center;
       }
 
-      &.founded {
+      &.win {
         border-bottom: 4px solid green;
+
+        p {
+          color: green;
+        }
       }
 
       &.lose {

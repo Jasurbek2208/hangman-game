@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import styled from "styled-components";
 
+// Interface
 interface IKeyboard {
   setLetters: Function;
   letters: String[];
@@ -36,7 +36,7 @@ export default function Keyboard({ setLetters, letters }: IKeyboard) {
     "Z",
   ];
 
-  function letterClicked(e: any, letter: String) {
+  function letterClicked(letter: String) {
     setLetters((p: Array<String>) => [...p, letter]);
   }
 
@@ -47,9 +47,7 @@ export default function Keyboard({ setLetters, letters }: IKeyboard) {
           key={String(i + String(idx))}
           type="button"
           disabled={letters.includes(i)}
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-            letterClicked(e, i)
-          }
+          onClick={() => letterClicked(i)}
         >
           {i}
         </button>
@@ -60,9 +58,11 @@ export default function Keyboard({ setLetters, letters }: IKeyboard) {
 
 const StyledKeyboard = styled.div`
   width: 100%;
+  max-width: 550px;
+
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 10px;
 
