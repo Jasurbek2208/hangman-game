@@ -1,10 +1,10 @@
 import { GlobalStyle } from "./assets/styles/global";
-import HangQuiz from "./pages/HangQuiz";
+import Hangman from "./pages/Hangman";
 
 function App() {
   return (
     <>
-      <HangQuiz />
+      <Hangman />
       <GlobalStyle />
     </>
   );

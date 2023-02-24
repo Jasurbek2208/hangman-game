@@ -1,12 +1,18 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 
 // Interface
 interface IKeyboard {
   setLetters: Function;
   letters: String[];
+  errorCount: Number;
 }
 
-export default function Keyboard({ setLetters, letters }: IKeyboard) {
+export default function Keyboard({
+  setLetters,
+  letters,
+  errorCount,
+}: IKeyboard) {
   const uppercaseLetters: Array<String> = [
     "A",
     "B",
@@ -36,9 +42,33 @@ export default function Keyboard({ setLetters, letters }: IKeyboard) {
     "Z",
   ];
 
+  // Site keyboard clicked
   function letterClicked(letter: String) {
     setLetters((p: Array<String>) => [...p, letter]);
   }
+
+  // Keyboard click watcher
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      
+      if (e.ctrlKey || errorCount > 4) return;
+      const pressedLetter: String = e.key.toUpperCase();
+
+      if (
+        e.keyCode >= 65 &&
+        e.keyCode <= 90 &&
+        !letters.includes(pressedLetter)
+      ) {
+        setLetters((p: Array<String>) => [...p, pressedLetter]);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [letters]);
 
   return (
     <StyledKeyboard>
@@ -57,6 +87,7 @@ export default function Keyboard({ setLetters, letters }: IKeyboard) {
 }
 
 const StyledKeyboard = styled.div`
+  padding-bottom: 20px;
   width: 100%;
   max-width: 550px;
 

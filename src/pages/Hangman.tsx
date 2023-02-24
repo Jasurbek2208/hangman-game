@@ -5,8 +5,8 @@ import styled from "styled-components";
 import names from "../names.json";
 
 // Components
-import Modal from "./Modal";
-import Keyboard from "./Keyboard";
+import Modal from "../components/Modal";
+import Keyboard from "../components/Keyboard";
 
 export default function Hangman() {
   const [errorCount, setErrorCount] = useState(0);
@@ -34,9 +34,11 @@ export default function Hangman() {
     let count = 0;
 
     wordLetters.forEach((i) => {
+
       if (letters.includes(i)) {
         count++;
       }
+      
       setResultCount(count);
     });
   }
@@ -51,8 +53,8 @@ export default function Hangman() {
         setErrorCount((p) => p + 1);
 
       } else {
-        checkingResult()
-      };
+        checkingResult();
+      }
     }
   }, [letters]);
 
@@ -70,6 +72,11 @@ export default function Hangman() {
     <StyledHangman>
       <div className="container">
         <div className="hang">
+          <div className="app-desc">
+            <h1>HANGMAN</h1>
+            <h2>O'zbekcha ismlarni top!</h2>
+          </div>
+
           <div className="dor">
             <div className="top"></div>
             <div className="center"></div>
@@ -95,6 +102,11 @@ export default function Hangman() {
                   ? " lose"
                   : resultCount === word.length
                   ? " win"
+                  : "") +
+                (word.length > 9
+                  ? " longer2x"
+                  : word.length > 7
+                  ? " longer"
                   : "")
               }
               key={String(i + String(idx))}
@@ -110,11 +122,15 @@ export default function Hangman() {
           ))}
         </div>
 
+        <Keyboard
+          setLetters={setLetters}
+          letters={letters}
+          errorCount={errorCount}
+        />
+
         {(errorCount > 5 || resultCount === word.length) && (
           <Modal word={word} errorCount={errorCount} resetGame={resetGame} />
         )}
-
-        <Keyboard setLetters={setLetters} letters={letters} />
       </div>
     </StyledHangman>
   );
@@ -134,6 +150,23 @@ const StyledHangman = styled.div`
     margin: 0 auto;
     width: max-content;
     display: flex;
+
+    .app-desc {
+      position: absolute;
+      top: 36px;
+      left: 14px;
+
+      color: #333;
+      font-family: 'Shantell Sans', cursive;
+
+      h1 {
+        font-size: 25px;
+      }
+
+      h2 {
+        font-size: 13px;
+      }
+    }
 
     .dor {
       .top {
@@ -269,6 +302,24 @@ const StyledHangman = styled.div`
 
         p {
           color: red;
+        }
+      }
+
+      &.longer {
+        width: 30px;
+        height: 30px;
+
+        p {
+          font-size: 20px;
+        }
+      }
+
+      &.longer2x {
+        width: 28px;
+        height: 28px;
+
+        p {
+          font-size: 19px;
         }
       }
     }

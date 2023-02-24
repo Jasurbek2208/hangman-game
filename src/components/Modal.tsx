@@ -22,7 +22,7 @@ export default function Modal({ errorCount, word, resetGame }: IModal) {
 
   return (
     <StyledModal className={"modal__wrapper" + (time ? " time" : "")}>
-      {errorCount < 6 ? <Fireworks /> : null}
+      {errorCount < 6 && word ? <Fireworks /> : null}
 
       {time && (
         <div className="modal">
