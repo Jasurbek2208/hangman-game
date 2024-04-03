@@ -1,6 +1,6 @@
-import { GlobalStyle } from './assets/styles/global'
-import Hangman from './pages/Hangman'
+import { GlobalStyle } from 'assets/styles/global'
+import Hangman from 'pages/Hangman'
 
 export default function App() {
-  return <><Hangman /><GlobalStyle /></>
+  return <><GlobalStyle /><Hangman /></>
 }

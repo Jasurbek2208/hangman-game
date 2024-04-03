@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import names from '../../public/names.json'
 
 // Components
-import Modal from '../components/Modal'
-import Keyboard from '../components/Keyboard'
+import Modal from 'components/Modal'
+import Keyboard from 'components/Keyboard'
 
 export default function Hangman() {
   const [errorCount, setErrorCount] = useState<number>(0)

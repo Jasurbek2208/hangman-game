@@ -1,7 +1,8 @@
 {
   "name": "hangman",
-  "version": "0.1.0",
   "private": true,
+  "version": "0.1.0",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/Jasurbek2208/hangman-game"
@@ -26,6 +27,9 @@
     "endOfLine": "auto",
     "bracketSameLine": true
   },
+  "eslintIgnore": [
+    "vite.config.ts"
+  ],
   "stylelint": {
     "extends": "stylelint-config-standard"
   },
@@ -44,28 +48,33 @@
     ]
   },
   "dependencies": {
-    "@types/node": "^16.18.12",
+    "@types/node": "^20.12.3",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "styled-components": "^5.3.6",
-    "typescript": "^4.9.5"
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.26"
+    "@types/styled-components": "^5.1.26",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react-refresh": "^1.3.6",
+    "terser": "^5.30.3",
+    "typescript": "^5.4.3",
+    "vite": "^5.2.7",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite --open /dist/public/index.html",
+    "dev": "vite",
+    "host": "vite --host",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {
