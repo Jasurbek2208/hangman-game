@@ -2,7 +2,9 @@ const staticCacheName = 's-hangman-uzb-names-v1'
 const dynamicCacheName = 'd-hangman-uzb-names-v1'
 
 const assetUrls = [
-  'https://hangman.shomaqsudov.uz'
+  '/',
+  '/public/',
+  '/src/'
 ]
 
 self.addEventListener('install', async event => {
