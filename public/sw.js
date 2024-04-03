@@ -3,7 +3,7 @@ const dynamicCacheName = 'd-hangman-uzb-names-v1'
 
 const assetUrls = [
   '/',
-  './index.html',
+  '../index.html',
   '../src/main.tsx',
   '../src/App.tsx',
   './script.js',
