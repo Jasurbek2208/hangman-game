@@ -1,67 +1,52 @@
-// service-worker.ts
+const staticCacheName = 's-hangman-uzb-names-v1'
+const dynamicCacheName = 'd-hangman-uzb-names-v1'
 
-// Define the cache name
-const CACHE_NAME = 'hangman-uzb-names-cache-v1';
-
-// List of URLs to cache
-const urlsToCache = [
-  '/',
+const assetUrls = [
   '/index.html',
-  '/main.tsx',
-  '/assets/styles/global.ts',
-];
+  '/src/main.tsx',
+  '/assets/styles/global.js'
+]
 
-// Install event
-self.addEventListener('install', (event) => {
-  // Perform install steps
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-  );
-});
+self.addEventListener('install', async event => {
+  const cache = await caches.open(staticCacheName)
+  await cache.addAll(assetUrls)
+})
 
-// Activate event
-self.addEventListener('activate', (event) => {
-  // Clean up old caches
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
-});
+self.addEventListener('activate', async event => {
+  const cacheNames = await caches.keys()
+  await Promise.all(
+    cacheNames
+      .filter(name => name !== staticCacheName)
+      .filter(name => name !== dynamicCacheName)
+      .map(name => caches.delete(name))
+  )
+})
 
-// Fetch event
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.match(event.request)
-        .then((response) => {
-          // If cache is found, return cached response
-          if (response) {
-            return response;
-          }
+self.addEventListener('fetch', event => {
+  const {request} = event
 
-          // If not found in cache, fetch from network
-          return fetch(event.request)
-            .then((networkResponse) => {
-              // Cache fetched response
-              cache.put(event.request, networkResponse.clone());
-              return networkResponse;
-            })
-            .catch(() => {
-              // If fetch fails, return offline page
-              return caches.match('/offline.html');
-            });
-        });
-    })
-  );
-});
+  const url = new URL(request.url)
+  if (url.origin === location.origin) {
+    event.respondWith(cacheFirst(request))
+  } else {
+    event.respondWith(networkFirst(request))
+  }
+})
+
+
+async function cacheFirst(request) {
+  const cached = await caches.match(request)
+  return cached ?? await fetch(request)
+}
+
+async function networkFirst(request) {
+  const cache = await caches.open(dynamicCacheName)
+  try {
+    const response = await fetch(request)
+    await cache.put(request, response.clone())
+    return response
+  } catch (e) {
+    const cached = await cache.match(request)
+    return cached ?? await caches.match('/offline.html')
+  }
+}
