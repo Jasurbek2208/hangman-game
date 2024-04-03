@@ -5,7 +5,7 @@ import styled from 'styled-components'
 interface IKeyboard {
   setLetters: Function
   letters: string[]
-  errorCount: Number
+  errorCount: number
 }
 
 export default function Keyboard({ setLetters, letters, errorCount }: IKeyboard) {
