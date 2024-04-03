@@ -1,44 +1,44 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { useEffect, useState } from 'react'
+import styled from 'styled-components'
 
 // Components
-import Fireworks from "./Fireworks";
+import Fireworks from './Fireworks'
 
 // Interface
 interface IModal {
-  errorCount: number;
-  word: String;
-  resetGame: Function;
+  word: String
+  errorCount: number
+  resetGame: Function
 }
 
 export default function Modal({ errorCount, word, resetGame }: IModal) {
-  const [time, setTime] = useState(false);
-  
+  const [time, setTime] = useState<boolean>(false)
+
   useEffect(() => {
     setTimeout(() => {
-      setTime(true);
-    }, 1500);
-  }, []);
+      setTime(true)
+    }, 1500)
+  }, [])
 
   return (
-    <StyledModal className={"modal__wrapper" + (time ? " time" : "")}>
+    <StyledModal className={'modal__wrapper' + (time ? ' time' : '')}>
       {errorCount < 6 && word ? <Fireworks /> : null}
 
       {time && (
-        <div className="modal">
-          <div className="top">
-            <h1>You {errorCount > 5 ? "Lose" : "Win"}</h1>
+        <div className='modal'>
+          <div className='top'>
+            <h1>You {errorCount > 5 ? 'Lose' : 'Win'}</h1>
           </div>
-          <div className="body">
+          <div className='body'>
             <h2>{word}</h2>
-            <button type="button" onClick={() => resetGame()}>
+            <button type='button' onClick={() => resetGame()}>
               Reset
             </button>
           </div>
         </div>
       )}
     </StyledModal>
-  );
+  )
 }
 
 const StyledModal = styled.div`
@@ -50,7 +50,6 @@ const StyledModal = styled.div`
   display: grid;
   place-items: center;
   background-color: transparent;
-  /* backdrop-filter: ; */
 
   &.time {
     background-color: #00000052;
@@ -106,4 +105,4 @@ const StyledModal = styled.div`
       }
     }
   }
-`;
+`

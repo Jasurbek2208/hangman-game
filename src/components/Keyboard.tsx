@@ -1,89 +1,48 @@
-import { useEffect } from "react";
-import styled from "styled-components";
+import { useEffect } from 'react'
+import styled from 'styled-components'
 
 // Interface
 interface IKeyboard {
-  setLetters: Function;
-  letters: String[];
-  errorCount: Number;
+  setLetters: Function
+  letters: string[]
+  errorCount: Number
 }
 
-export default function Keyboard({
-  setLetters,
-  letters,
-  errorCount,
-}: IKeyboard) {
-  const uppercaseLetters: Array<String> = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-  ];
+export default function Keyboard({ setLetters, letters, errorCount }: IKeyboard) {
+  const uppercaseLetters: Array<string> = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
   // Site keyboard clicked
-  function letterClicked(letter: String) {
-    setLetters((p: Array<String>) => [...p, letter]);
+  function letterClicked(letter: string) {
+    setLetters((p: Array<string>) => [...p, letter])
   }
 
   // Keyboard click watcher
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      
-      if (e.ctrlKey || errorCount > 4) return;
-      const pressedLetter: String = e.key.toUpperCase();
+      if (e?.ctrlKey || errorCount > 4) return
+      const pressedLetter: string = e?.key?.toUpperCase()
 
-      if (
-        e.keyCode >= 65 &&
-        e.keyCode <= 90 &&
-        !letters.includes(pressedLetter)
-      ) {
-        setLetters((p: Array<String>) => [...p, pressedLetter]);
+      if (e?.keyCode >= 65 && e?.keyCode <= 90 && !letters?.includes(pressedLetter)) {
+        setLetters((p: Array<string>) => [...p, pressedLetter])
       }
-    };
+    }
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [letters]);
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [letters])
 
   return (
     <StyledKeyboard>
-      {uppercaseLetters.map((i: String, idx: number) => (
-        <button
-          key={String(i + String(idx))}
-          type="button"
-          disabled={letters.includes(i)}
-          onClick={() => letterClicked(i)}
-        >
+      {uppercaseLetters.map((i: string, idx: number) => (
+        <button key={String(i + String(idx))} type='button' disabled={letters?.includes(i)} onClick={() => letterClicked(i)}>
           {i}
         </button>
       ))}
     </StyledKeyboard>
-  );
+  )
 }
 
 const StyledKeyboard = styled.div`
@@ -119,4 +78,4 @@ const StyledKeyboard = styled.div`
       background-color: #5c5c5c;
     }
   }
-`;
+`

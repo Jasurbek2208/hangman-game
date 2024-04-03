@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import "./fonts.css";
+import { createGlobalStyle } from 'styled-components'
+import './fonts.css'
 
 export const GlobalStyle = createGlobalStyle`
     * {
@@ -15,4 +15,4 @@ export const GlobalStyle = createGlobalStyle`
         height: 100vh;
         font-family: 'Inter', sans-serif;
     }
-`;
+`

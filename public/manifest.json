@@ -1,25 +1,74 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Hangman uzb",
+  "name": "Hangman | O'zbekcha ismlarni toping",
+  "description": "Hangman! Bu safar o'yinda o'zbekcha ismlarni topish kerak.",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "/logo.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png"
     },
     {
-      "src": "logo192.png",
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "152x152"
+    },
+    {
+      "src": "/logo.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "384x384"
+    },
+    {
+      "src": "/logo.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
   "start_url": ".",
-  "display": "standalone",
+  "id": "hangman-uzbcha-ismlar",
+  "dir": "ltr",
+  "scope": "/",
+  "lang": "en",
+  "orientation": "portrait",
+  "display_override": ["fullscreen", "standalone", "window-controls-overlay"],
+  "display": "fullscreen",
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "chrome_web_store",
+      "url": "https://hangman.shomaqsudov.uz/manifest.json",
+      "id": "hangman-uzbcha-ismlar"
+    }
+  ],
+  "features": ["Cross Platform", "fast", "simple"],
+  "edge_side_panel": {
+    "preferred_width": 460
+  },
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }

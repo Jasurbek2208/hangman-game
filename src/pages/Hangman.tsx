@@ -1,139 +1,113 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { useEffect, useState } from 'react'
+import styled from 'styled-components'
 
 // All names json
-import names from "../names.json";
+import names from '../../public/names.json'
 
 // Components
-import Modal from "../components/Modal";
-import Keyboard from "../components/Keyboard";
+import Modal from '../components/Modal'
+import Keyboard from '../components/Keyboard'
 
 export default function Hangman() {
-  const [errorCount, setErrorCount] = useState(0);
-  const [resultCount, setResultCount] = useState(0);
-  const [letters, setLetters] = useState<Array<String>>([]);
+  const [errorCount, setErrorCount] = useState<number>(0)
+  const [resultCount, setResultCount] = useState<number>(0)
+  const [letters, setLetters] = useState<Array<string>>([])
 
-  const [word, setWord] = useState<String>("");
-  const [wordLetters, setWordLetters] = useState<Array<String>>([]);
+  const [word, setWord] = useState<string>('')
+  const [wordLetters, setWordLetters] = useState<Array<string>>([])
 
   // Reset Game
   function resetGame() {
-    setLetters([]);
-    setErrorCount(0);
-    setResultCount(0);
-    setWord(getRandomName());
+    setLetters([])
+    setErrorCount(0)
+    setResultCount(0)
+    setWord(getRandomName())
   }
 
   // get random name
   function getRandomName() {
-    return names[Math.floor(Math.random() * (names.length - 1 - 0) + 0)];
+    return names[Math?.floor(Math?.random() * (names?.length - 1 - 0) + 0)]
   }
 
   // Checking true results
   function checkingResult() {
-    let count = 0;
+    let count = 0
 
-    wordLetters.forEach((i) => {
-
-      if (letters.includes(i)) {
-        count++;
+    wordLetters?.forEach((i) => {
+      if (letters?.includes(i)) {
+        count++
       }
-      
-      setResultCount(count);
-    });
+
+      setResultCount(count)
+    })
   }
 
   // Keyboard Click watcher
   useEffect(() => {
-    const currLetters = letters;
+    const currLetters = letters
 
-    if (currLetters.length > 0) {
-
-      if (!wordLetters.includes(currLetters[currLetters.length - 1])) {
-        setErrorCount((p) => p + 1);
-
+    if (currLetters?.length > 0) {
+      if (!wordLetters?.includes(currLetters[currLetters?.length - 1])) {
+        setErrorCount((p) => p + 1)
       } else {
-        checkingResult();
+        checkingResult()
       }
     }
-  }, [letters]);
+  }, [letters])
 
   // Generate random name
   useEffect(() => {
-    setWord(getRandomName());
-  }, []);
+    setWord(getRandomName())
+  }, [])
 
   // Getting the name into an array
   useEffect(() => {
-    setWordLetters(word.toUpperCase().split(""));
-  }, [word]);
+    setWordLetters(word?.toUpperCase()?.split(''))
+  }, [word])
 
   return (
     <StyledHangman>
-      <div className="container">
-        <div className="hang">
-          <div className="app-desc">
+      <div className='container'>
+        <div className='hang'>
+          <div className='app-desc'>
             <h1>HANGMAN</h1>
             <h2>O'zbekcha ismlarni top!</h2>
           </div>
 
-          <div className="dor">
-            <div className="top"></div>
-            <div className="center"></div>
-            <div className="bottom"></div>
+          <div className='dor'>
+            <div className='top'></div>
+            <div className='center'></div>
+            <div className='bottom'></div>
           </div>
 
-          <div className="man">
-            {errorCount > 0 && <div className="head"></div>}
-            {errorCount > 1 && <div className="body"></div>}
-            {errorCount > 2 && <div className="hand left"></div>}
-            {errorCount > 3 && <div className="hand right"></div>}
-            {errorCount > 4 && <div className="leg left"></div>}
-            {errorCount > 5 && <div className="leg right"></div>}
+          <div className='man'>
+            {errorCount > 0 && <div className='head'></div>}
+            {errorCount > 1 && <div className='body'></div>}
+            {errorCount > 2 && <div className='hand left'></div>}
+            {errorCount > 3 && <div className='hand right'></div>}
+            {errorCount > 4 && <div className='leg left'></div>}
+            {errorCount > 5 && <div className='leg right'></div>}
           </div>
         </div>
 
-        <div className="display">
-          {wordLetters?.map((i: String, idx: number) => (
+        <div className='display'>
+          {wordLetters?.map((i: string, idx: number) => (
             <div
               className={
-                "letter" +
-                (errorCount > 5 && !letters.includes(i)
-                  ? " lose"
-                  : resultCount === word.length
-                  ? " win"
-                  : "") +
-                (word.length > 9
-                  ? " longer2x"
-                  : word.length > 7
-                  ? " longer"
-                  : "")
+                'letter' + (errorCount > 5 && !letters?.includes(i) ? ' lose' : resultCount === word?.length ? ' win' : '') + (word?.length > 9 ? ' longer2x' : word?.length > 7 ? ' longer' : '')
               }
-              key={String(i + String(idx))}
-            >
-              <p>
-                {errorCount > 5 && !letters.includes(i)
-                  ? i
-                  : letters.includes(i)
-                  ? i.toUpperCase()
-                  : ""}
-              </p>
+              key={String(i + String(idx))}>
+              <p>{errorCount > 5 && !letters?.includes(i) ? i : letters?.includes(i) ? i?.toUpperCase() : ''}</p>
             </div>
           ))}
         </div>
 
-        <Keyboard
-          setLetters={setLetters}
-          letters={letters}
-          errorCount={errorCount}
-        />
+        <Keyboard setLetters={setLetters} letters={letters} errorCount={errorCount} />
 
-        {(errorCount > 5 || resultCount === word.length) && (
-          <Modal word={word} errorCount={errorCount} resetGame={resetGame} />
-        )}
+        {(errorCount > 5 || resultCount === word?.length) && <Modal word={word} errorCount={errorCount} resetGame={resetGame} />}
       </div>
     </StyledHangman>
-  );
+  )
 }
 
 const StyledHangman = styled.div`
@@ -176,7 +150,7 @@ const StyledHangman = styled.div`
         background-color: #4d250e;
 
         &::after {
-          content: "";
+          content: '';
           position: absolute;
           top: 0px;
           right: 0px;
@@ -224,7 +198,7 @@ const StyledHangman = styled.div`
         z-index: -1;
 
         &::before {
-          content: "";
+          content: '';
           position: absolute;
           top: -5px;
           left: 50%;
@@ -324,4 +298,4 @@ const StyledHangman = styled.div`
       }
     }
   }
-`;
+`

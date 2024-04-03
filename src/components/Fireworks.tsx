@@ -1,20 +1,20 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export default function Fireworks() {
   return (
     <StyledFireworks>
-      <div className="firework"></div>
-      <div className="firework"></div>
-      <div className="firework"></div>
-      <div className="firework"></div>
-      <div className="firework"></div>
-      <div className="firework"></div>
-      <div className="firework"></div>
-      <div className="firework"></div>
-      <div className="firework"></div>
-      <div className="firework"></div>
+      <div className='firework'></div>
+      <div className='firework'></div>
+      <div className='firework'></div>
+      <div className='firework'></div>
+      <div className='firework'></div>
+      <div className='firework'></div>
+      <div className='firework'></div>
+      <div className='firework'></div>
+      <div className='firework'></div>
+      <div className='firework'></div>
     </StyledFireworks>
-  );
+  )
 }
 
 const StyledFireworks = styled.div`
@@ -24,7 +24,7 @@ const StyledFireworks = styled.div`
 
   width: 100%;
   height: 100%;
-  
+
   pointer-events: none;
   z-index: 8;
 
@@ -125,4 +125,4 @@ const StyledFireworks = styled.div`
       opacity: 0;
     }
   }
-`;
+`
