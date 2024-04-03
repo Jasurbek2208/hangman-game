@@ -4,11 +4,10 @@ const dynamicCacheName = 'd-hangman-uzb-names-v1'
 const assetUrls = [
   '/',
   'index.html',
-  '/src/main.tsx',
-  '/src/App.tsx',
-  '/script.js',
-  '/sw.js',
-  '/src/assets/styles/global.js'
+  '../src/main.tsx',
+  '../src/App.tsx',
+  './script.js',
+  '../src/assets/styles/global.js'
 ]
 
 self.addEventListener('install', async event => {
