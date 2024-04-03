@@ -1,4 +1,4 @@
-const staticCacheName = 's-hangman-uzb-names-v1'
+// const staticCacheName = 's-hangman-uzb-names-v1'
 const dynamicCacheName = 'd-hangman-uzb-names-v1'
 
 const assetUrls = [
@@ -7,49 +7,57 @@ const assetUrls = [
   '/src/'
 ]
 
-self.addEventListener('install', async event => {
-  const cache = await caches.open(staticCacheName)
-  await cache.addAll(assetUrls)
-})
+self.addEventListener('install', async () => {
+    try {
+        const cache = await caches.open(dynamicCacheName);
+        await cache.addAll(assetUrls); 
+    } catch (error) {
+        console.error('Service worker: Cache installation failed', error);
+    }
+});
 
-self.addEventListener('activate', async event => {
-  const cacheNames = await caches.keys()
-  await Promise.all(
-    cacheNames
-      .filter(name => name !== staticCacheName)
-      .filter(name => name !== dynamicCacheName)
-      .map(name => caches.delete(name))
-  )
-})
+self.addEventListener('activate', async () => {
+    try {
+        const cacheNames = await caches.keys();
+        await Promise.all(
+            cacheNames
+                .filter((name) => name !== dynamicCacheName)
+                .map((name) => caches.delete(name))
+        );
+    } catch (error) {
+        console.error('Service worker: Cache activation failed', error);
+    }
+});
 
 self.addEventListener('fetch', event => {
-  const {request} = event
+    const { request } = event
+    const url = new URL(request.url)
 
-  const url = new URL(request.url)
-  if (url.origin === location.origin) {
-    event.respondWith(cacheFirst(request))
-  } else {
-    event.respondWith(networkFirst(request))
-  }
+    if (url.origin === location.origin) {
+        event.respondWith(cacheFirst(request))
+    } else {
+        event.respondWith(networkFirst(request))
+    }
 })
 
-
 async function cacheFirst(request) {
-  const cached = await caches.match(request)
-  return cached ?? await fetch(request)
+    const cached = await caches.match(request)
+    return cached ?? await fetch(request)
 }
 
 async function networkFirst(request) {
-  const cache = await caches.open(dynamicCacheName)
-  try {
-    const response = await fetch(request)
-    await cache.put(request, response.clone())
-    return response
-  } catch (e) {
-    const cached = await cache.match(request)
-    return cached ?? new Response('Network error occurred', {
-      status: 503,
-      statusText: 'Service Unavailable',
-    });
-  }
+    const cache = await caches.open(dynamicCacheName)
+    try {
+        if(!navigator.onLine) return
+
+        const response = await fetch(request)
+
+        if (response && response.status === 200 && response.url.includes('/portfolios')) {
+            await cache.put(request, response.clone())
+        }
+        return response
+    } catch {
+        const cached = await cache.match(request)
+        return cached ?? await caches.match('/index.html')
+    }
 }
