@@ -47,6 +47,9 @@ async function networkFirst(request) {
     return response
   } catch (e) {
     const cached = await cache.match(request)
-    return cached ?? await caches.match('/offline.html')
+    return cached ?? new Response('Network error occurred', {
+      status: 503,
+      statusText: 'Service Unavailable',
+    });
   }
 }
