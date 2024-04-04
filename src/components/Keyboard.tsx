@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
-import styled from 'styled-components'
+import styled, { StyledComponent } from 'styled-components'
 
 // Interface
 interface IKeyboard {
-  setLetters: Function
   letters: string[]
   errorCount: number
+  setLetters: Function
 }
 
 export default function Keyboard({ setLetters, letters, errorCount }: IKeyboard) {
@@ -27,16 +27,16 @@ export default function Keyboard({ setLetters, letters, errorCount }: IKeyboard)
       }
     }
 
-    window.addEventListener('keydown', handleKeyDown)
+    window?.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown)
+      window?.removeEventListener('keydown', handleKeyDown)
     }
   }, [letters])
 
   return (
     <StyledKeyboard>
-      {uppercaseLetters.map((i: string, idx: number) => (
+      {uppercaseLetters?.map((i: string, idx: number) => (
         <button key={String(i + String(idx))} type='button' disabled={letters?.includes(i)} onClick={() => letterClicked(i)}>
           {i}
         </button>
@@ -45,7 +45,7 @@ export default function Keyboard({ setLetters, letters, errorCount }: IKeyboard)
   )
 }
 
-const StyledKeyboard = styled.div`
+const StyledKeyboard: StyledComponent<"div", any, {}, never> = styled.div`
   padding-bottom: 20px;
   width: 100%;
   max-width: 550px;

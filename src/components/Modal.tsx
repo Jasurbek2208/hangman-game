@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import { MouseEventHandler, useEffect, useState } from 'react'
+import styled, { StyledComponent } from 'styled-components'
 
 // Components
 import Fireworks from './Fireworks'
@@ -8,7 +8,7 @@ import Fireworks from './Fireworks'
 interface IModal {
   word: String
   errorCount: number
-  resetGame: Function
+  resetGame: MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 export default function Modal({ errorCount, word, resetGame }: IModal) {
@@ -31,7 +31,7 @@ export default function Modal({ errorCount, word, resetGame }: IModal) {
           </div>
           <div className='body'>
             <h2>{word}</h2>
-            <button type='button' onClick={() => resetGame()}>
+            <button type='button' onClick={resetGame}>
               Reset
             </button>
           </div>
@@ -41,7 +41,7 @@ export default function Modal({ errorCount, word, resetGame }: IModal) {
   )
 }
 
-const StyledModal = styled.div`
+const StyledModal: StyledComponent<"div", any, {}, never> = styled.div`
   position: fixed;
   top: 0px;
   left: 0px;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styled, { StyledComponent } from 'styled-components'
 
 // All names json
 import names from '../../public/names.json'
@@ -31,7 +31,7 @@ export default function Hangman() {
 
   // Checking true results
   function checkingResult() {
-    let count = 0
+    let count: number = 0
 
     wordLetters?.forEach((i) => {
       if (letters?.includes(i)) {
@@ -48,7 +48,7 @@ export default function Hangman() {
 
     if (currLetters?.length > 0) {
       if (!wordLetters?.includes(currLetters[currLetters?.length - 1])) {
-        setErrorCount((p) => p + 1)
+        setErrorCount((p: number) => p + 1)
       } else {
         checkingResult()
       }
@@ -110,7 +110,7 @@ export default function Hangman() {
   )
 }
 
-const StyledHangman = styled.div`
+const StyledHangman: StyledComponent<"main", any, {}, never> = styled.main`
   width: 100%;
   height: 98vh;
   display: flex;

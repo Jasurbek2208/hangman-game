@@ -7,8 +7,8 @@ export default function App() {
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<Hangman />} />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path='/' element={<Hangman />} />
+        <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </BrowserRouter>
   )

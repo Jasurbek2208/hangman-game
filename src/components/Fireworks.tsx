@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { StyledComponent } from 'styled-components'
 
 export default function Fireworks() {
   return (
@@ -17,7 +17,7 @@ export default function Fireworks() {
   )
 }
 
-const StyledFireworks = styled.div`
+const StyledFireworks: StyledComponent<"div", any, {}, never> = styled.div`
   position: absolute;
   top: 0;
   left: 0;

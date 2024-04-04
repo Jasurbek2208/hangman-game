@@ -21,7 +21,7 @@
       "components/*": ["components/*"]
     }
   },
-  "include": ["./src", "public/script.ts", "declaration.d.ts"],
+  "include": ["./src", "public/script.js", "declaration.d.ts"],
   "composite": true,
   "references": [{ "path": "./tsconfig.node.json" }]
 }

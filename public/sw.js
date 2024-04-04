@@ -1,4 +1,4 @@
-const CacheKey = "cache-v1";
+const CacheKey = "hangman-uzbcha-ismlar-cache-v1";
 
 const assetUrls = [
   '/',
@@ -25,7 +25,7 @@ const initCache = () => {
 };
 
 const tryNetwork = (req, timeout) => {
-    console.log(req)
+  console.log(req)
   return new Promise((resolve, reject) => {
     const timeoutId = setTimeout(reject, timeout);
     fetch(req).then((res) => {
